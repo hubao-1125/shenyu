@@ -25,11 +25,10 @@ import java.time.Duration;
 
 /**
  * the http sync strategy properties.
- * @author huangxiaofeng
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "soul.sync.http")
+@ConfigurationProperties(prefix = "shenyu.sync.http")
 public class HttpSyncProperties {
 
     /**

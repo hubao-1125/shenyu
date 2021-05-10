@@ -42,12 +42,12 @@ public class ShenyuClientCommonBeanConfiguration {
     }
     
     /**
-     * Soul Register Center Config.
+     * Shenyu Register Center Config.
      *
      * @return the Register Center Config
      */
     @Bean
-    @ConfigurationProperties(prefix = "soul.client")
+    @ConfigurationProperties(prefix = "shenyu.client")
     public ShenyuRegisterCenterConfig shenyuRegisterCenterConfig() {
         return new ShenyuRegisterCenterConfig();
     }

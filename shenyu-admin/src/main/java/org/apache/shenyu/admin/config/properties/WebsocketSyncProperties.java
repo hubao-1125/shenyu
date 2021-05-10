@@ -23,12 +23,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * the websocket sync strategy properties.
- *
- * @author xiaoyu
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "soul.sync.websocket")
+@ConfigurationProperties(prefix = "shenyu.sync.websocket")
 public class WebsocketSyncProperties {
 
     /**

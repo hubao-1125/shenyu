@@ -15,19 +15,58 @@
  * limitations under the License.
  */
 
-package org.apache.shenyu.admin.model.query;
+package org.apache.shenyu.admin.model.dto;
 
-import org.apache.shenyu.admin.AbstractReflectGetterSetterTest;
+import lombok.Data;
+
+import java.io.Serializable;
 
 /**
- * Test case for SoulDictQuery.
- *
- * @author wuudongdong
+ * this shenyu dict from web front.
  */
-public final class SoulDictQueryTest extends AbstractReflectGetterSetterTest {
+@Data
+public class ShenyuDictDTO implements Serializable {
 
-    @Override
-    protected Class<?> getTargetClass() {
-        return SoulDictQuery.class;
-    }
+    private static final long serialVersionUID = -8639439741130267709L;
+
+    /**
+     * primary key.
+     */
+    private String id;
+
+    /**
+     * dict type.
+     */
+    private String type;
+
+    /**
+     * dict code.
+     */
+    private String dictCode;
+
+    /**
+     * dict name.
+     */
+    private String dictName;
+
+    /**
+     * dict value.
+     */
+    private String dictValue;
+
+    /**
+     * dict desc.
+     */
+    private String desc;
+
+    /**
+     * sort no.
+     */
+    private Integer sort;
+
+    /**
+     * whether enabled.
+     */
+    private Boolean enabled;
+
 }

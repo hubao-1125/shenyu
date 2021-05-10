@@ -29,8 +29,6 @@ import java.util.Random;
 
 /**
  * Test SecretProperties.
- *
- * @author Jiang Jining
  */
 @Slf4j
 public final class SecretPropertiesTest extends AbstractConfigurationTest {
@@ -41,7 +39,7 @@ public final class SecretPropertiesTest extends AbstractConfigurationTest {
         if (log.isDebugEnabled()) {
             log.debug("RandomKey is: " + randomKey);
         }
-        load(SecretPropertiesConfiguration.class, "soul.aes.secret.key=" + randomKey);
+        load(SecretPropertiesConfiguration.class, "shenyu.aes.secret.key=" + randomKey);
         SecretProperties secretProperties = getContext().getBean(SecretProperties.class);
         Assertions.assertEquals(secretProperties.getKey(), randomKey);
     }

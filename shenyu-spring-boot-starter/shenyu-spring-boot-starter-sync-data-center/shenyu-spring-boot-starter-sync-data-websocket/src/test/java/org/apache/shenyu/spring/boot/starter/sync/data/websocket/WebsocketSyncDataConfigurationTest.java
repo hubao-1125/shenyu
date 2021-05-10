@@ -34,8 +34,6 @@ import static org.junit.Assert.assertThat;
 
 /**
  * Test case for {@link WebsocketSyncDataConfiguration}.
- *
- * @author midnight2104
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -44,7 +42,7 @@ import static org.junit.Assert.assertThat;
         },
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {
-                "soul.sync.websocket.urls=ws://localhost:9095/websocket"
+                "shenyu.sync.websocket.urls=ws://localhost:9095/websocket"
         })
 @EnableAutoConfiguration
 @MockBean(PluginDataSubscriber.class)

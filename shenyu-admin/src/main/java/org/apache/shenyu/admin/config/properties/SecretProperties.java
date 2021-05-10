@@ -24,13 +24,11 @@ import org.springframework.stereotype.Component;
 
 /**
  * Aes Secret configuration.
- *
- * @author nuo-promise
  */
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "soul.aes.secret")
+@ConfigurationProperties(prefix = "shenyu.aes.secret")
 public class SecretProperties {
 
     private String key;

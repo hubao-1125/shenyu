@@ -47,8 +47,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * The type Http client plugin configuration.
- *
- * @author xiaoyu
  */
 @Configuration
 public class HttpClientPluginConfiguration {
@@ -59,7 +57,7 @@ public class HttpClientPluginConfiguration {
      * @return the http client properties
      */
     @Bean
-    @ConfigurationProperties(prefix = "soul.httpclient")
+    @ConfigurationProperties(prefix = "shenyu.httpclient")
     public HttpClientProperties httpClientProperties() {
         return new HttpClientProperties();
     }
@@ -145,14 +143,14 @@ public class HttpClientPluginConfiguration {
      * The type Web client configuration.
      */
     @Configuration
-    @ConditionalOnProperty(name = "soul.httpclient.strategy", havingValue = "webClient", matchIfMissing = true)
+    @ConditionalOnProperty(name = "shenyu.httpclient.strategy", havingValue = "webClient", matchIfMissing = true)
     static class WebClientConfiguration {
 
         /**
-         * Web client plugin soul plugin.
+         * Web client plugin shenyu plugin.
          *
          * @param httpClient the http client
-         * @return the soul plugin
+         * @return the shenyu plugin
          */
         @Bean
         public ShenyuPlugin webClientPlugin(final ObjectProvider<HttpClient> httpClient) {
@@ -163,9 +161,9 @@ public class HttpClientPluginConfiguration {
         }
 
         /**
-         * Web client response plugin soul plugin.
+         * Web client response plugin shenyu plugin.
          *
-         * @return the soul plugin
+         * @return the shenyu plugin
          */
         @Bean
         public ShenyuPlugin webClientResponsePlugin() {
@@ -178,14 +176,14 @@ public class HttpClientPluginConfiguration {
      * The type Netty http client configuration.
      */
     @Configuration
-    @ConditionalOnProperty(name = "soul.httpclient.strategy", havingValue = "netty")
+    @ConditionalOnProperty(name = "shenyu.httpclient.strategy", havingValue = "netty")
     static class NettyHttpClientConfiguration {
 
         /**
-         * Netty http client plugin soul plugin.
+         * Netty http client plugin shenyu plugin.
          *
          * @param httpClient the http client
-         * @return the soul plugin
+         * @return the shenyu plugin
          */
         @Bean
         public ShenyuPlugin nettyHttpClientPlugin(final ObjectProvider<HttpClient> httpClient) {
@@ -193,9 +191,9 @@ public class HttpClientPluginConfiguration {
         }
 
         /**
-         * Netty client response plugin soul plugin.
+         * Netty client response plugin shenyu plugin.
          *
-         * @return the soul plugin
+         * @return the shenyu plugin
          */
         @Bean
         public ShenyuPlugin nettyClientResponsePlugin() {

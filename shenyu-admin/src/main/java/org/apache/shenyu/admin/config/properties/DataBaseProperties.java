@@ -24,13 +24,11 @@ import org.springframework.stereotype.Component;
 
 /**
  * Local DataSource configuration.
- *
- * @author nuo-promise
  */
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "soul.database")
+@ConfigurationProperties(prefix = "shenyu.database")
 public class DataBaseProperties {
 
     private String dialect;

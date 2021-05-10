@@ -30,8 +30,6 @@ import java.util.stream.Collectors;
 
 /**
  * The type Consumer executor.
- *
- * @author xiaoyu
  */
 @SuppressWarnings("all")
 public final class RegisterServerConsumerExecutor extends QueueConsumerExecutor<List<DataTypeParent>> {
@@ -66,7 +64,7 @@ public final class RegisterServerConsumerExecutor extends QueueConsumerExecutor<
 
         @Override
         public String fixName() {
-            return "soul_register_server";
+            return "shenyu_register_server";
         }
     }
 }

@@ -15,27 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.shenyu.admin.model.dto;
+package org.apache.shenyu.admin.model.query;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.NoArgsConstructor;
+import org.apache.shenyu.admin.model.page.PageParameter;
 
 /**
- * this soul dict from web front.
- *
- * @author dengliming
+ * this is shenyu dict query.
  */
 @Data
-public class SoulDictDTO implements Serializable {
-
-    private static final long serialVersionUID = -8639439741130267709L;
-
-    /**
-     * primary key.
-     */
-    private String id;
-
+@AllArgsConstructor
+@NoArgsConstructor
+public class ShenyuDictQuery {
     /**
      * dict type.
      */
@@ -52,23 +45,7 @@ public class SoulDictDTO implements Serializable {
     private String dictName;
 
     /**
-     * dict value.
+     * page parameter.
      */
-    private String dictValue;
-
-    /**
-     * dict desc.
-     */
-    private String desc;
-
-    /**
-     * sort no.
-     */
-    private Integer sort;
-
-    /**
-     * whether enabled.
-     */
-    private Boolean enabled;
-
+    private PageParameter pageParameter;
 }

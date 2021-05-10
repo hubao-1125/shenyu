@@ -29,8 +29,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Test case for {@link ExceptionHandlers}.
- *
- * @author bigwillc
  */
 public final class ExceptionHandlersTest {
 
@@ -50,11 +48,11 @@ public final class ExceptionHandlersTest {
     }
 
     @Test
-    public void testServerExceptionHandlerBySoulException() {
-        Exception soulException = new ShenyuException("Test soulException message!");
-        ShenyuAdminResult result = exceptionHandlersUnderTest.serverExceptionHandler(soulException);
+    public void testServerExceptionHandlerByShenyuException() {
+        Exception shenyuException = new ShenyuException("Test shenyuException message!");
+        ShenyuAdminResult result = exceptionHandlersUnderTest.serverExceptionHandler(shenyuException);
         assertEquals(result.getCode().intValue(), CommonErrorCode.ERROR);
-        assertEquals(result.getMessage(), soulException.getMessage());
+        assertEquals(result.getMessage(), shenyuException.getMessage());
     }
 
     @Test

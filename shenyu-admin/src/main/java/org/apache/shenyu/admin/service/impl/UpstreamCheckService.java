@@ -61,8 +61,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * this is divide  http url upstream.
- *
- * @author xiaoyu
  */
 @Slf4j
 @Component
@@ -95,7 +93,7 @@ public class UpstreamCheckService {
      * @param eventPublisher           the event publisher
      * @param pluginMapper             the plugin mapper
      * @param selectorConditionMapper  the selectorCondition mapper
-     * @param shenyuRegisterCenterConfig the soul register center config
+     * @param shenyuRegisterCenterConfig the shenyu register center config
      */
     @Autowired(required = false)
     public UpstreamCheckService(final SelectorMapper selectorMapper, final ApplicationEventPublisher eventPublisher,

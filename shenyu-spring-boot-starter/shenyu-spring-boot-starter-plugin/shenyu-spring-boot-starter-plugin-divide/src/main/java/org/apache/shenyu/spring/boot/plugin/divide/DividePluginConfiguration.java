@@ -32,9 +32,7 @@ import org.springframework.web.reactive.socket.server.WebSocketService;
 import org.springframework.web.reactive.socket.server.support.HandshakeWebSocketService;
 
 /**
- * SoulConfiguration.
- *
- * @author xiaoyu(Myth)
+ * ShenyuConfiguration.
  */
 @Configuration
 public class DividePluginConfiguration {
@@ -93,12 +91,12 @@ public class DividePluginConfiguration {
     }
     
     /**
-     * Divide soul context decorator soul context decorator.
+     * Divide shenyu context decorator shenyu context decorator.
      *
-     * @return the soul context decorator
+     * @return the shenyu context decorator
      */
     @Bean
-    public ShenyuContextDecorator divideSoulContextDecorator() {
+    public ShenyuContextDecorator divideShenyuContextDecorator() {
         return new DivideShenyuContextDecorator();
     }
 }

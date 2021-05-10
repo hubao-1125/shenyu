@@ -15,39 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.shenyu.admin.model.query;
+package org.apache.shenyu.admin.model.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.shenyu.admin.model.page.PageParameter;
+import org.apache.shenyu.admin.AbstractReflectGetterSetterTest;
 
 /**
- * this is soul dict query.
- *
- * @author dengliming
+ * Test case for ShenyuDictVO.
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class SoulDictQuery {
-    /**
-     * dict type.
-     */
-    private String type;
+public final class ShenyuDictVOTest extends AbstractReflectGetterSetterTest {
 
-    /**
-     * dict code.
-     */
-    private String dictCode;
-
-    /**
-     * dict name.
-     */
-    private String dictName;
-
-    /**
-     * page parameter.
-     */
-    private PageParameter pageParameter;
+    @Override
+    protected Class<?> getTargetClass() {
+        return ShenyuDictVO.class;
+    }
 }

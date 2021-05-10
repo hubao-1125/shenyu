@@ -22,11 +22,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * The type Zookeeper configuration.
- *
- * @author xiaoyu(Myth)
  */
 @Data
-@ConfigurationProperties(prefix = "soul.sync.zookeeper")
+@ConfigurationProperties(prefix = "shenyu.sync.zookeeper")
 public class ZookeeperProperties {
 
     private String url;
