@@ -17,6 +17,7 @@
 
 package org.apache.shenyu.client.tars;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -42,9 +43,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
@@ -52,15 +51,15 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class TarsServiceBeanPostProcessor implements BeanPostProcessor {
-    
+
     private final LocalVariableTableParameterNameDiscoverer localVariableTableParameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
-    
+
     private ShenyuClientRegisterEventPublisher publisher = ShenyuClientRegisterEventPublisher.getInstance();
-    
+
     private final ExecutorService executorService;
-    
+
     private final String contextPath;
-    
+
     private final String ipAndPort;
 
     private final String host;
@@ -79,7 +78,7 @@ public class TarsServiceBeanPostProcessor implements BeanPostProcessor {
         this.ipAndPort = ip + ":" + port;
         this.host = props.getProperty("host");
         this.port = Integer.parseInt(port);
-        executorService = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+        executorService = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("shenyu-tars-client-thread-pool-%d").build());
         publisher.start(shenyuClientRegisterRepository);
     }
 
@@ -93,16 +92,7 @@ public class TarsServiceBeanPostProcessor implements BeanPostProcessor {
 
     private void handler(final Object serviceBean) {
         Class<?> clazz = serviceBean.getClass();
-        if (AopUtils.isCglibProxy(clazz)) {
-            String superClassName = clazz.getGenericSuperclass().getTypeName();
-            try {
-                clazz = Class.forName(superClassName);
-            } catch (ClassNotFoundException e) {
-                log.error(String.format("class not found: %s", superClassName));
-                return;
-            }
-        }
-        if (AopUtils.isJdkDynamicProxy(clazz)) {
+        if (AopUtils.isAopProxy(serviceBean)) {
             clazz = AopUtils.getTargetClass(serviceBean);
         }
         Method[] methods = ReflectionUtils.getUniqueDeclaredMethods(clazz);

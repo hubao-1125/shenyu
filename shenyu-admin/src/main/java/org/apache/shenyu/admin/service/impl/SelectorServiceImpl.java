@@ -17,9 +17,11 @@
 
 package org.apache.shenyu.admin.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shenyu.admin.interceptor.annotation.DataPermission;
+import org.apache.shenyu.admin.aspect.annotation.DataPermission;
+import org.apache.shenyu.admin.listener.DataChangedEvent;
 import org.apache.shenyu.admin.mapper.DataPermissionMapper;
 import org.apache.shenyu.admin.mapper.PluginMapper;
 import org.apache.shenyu.admin.mapper.RuleConditionMapper;
@@ -27,25 +29,24 @@ import org.apache.shenyu.admin.mapper.RuleMapper;
 import org.apache.shenyu.admin.mapper.SelectorConditionMapper;
 import org.apache.shenyu.admin.mapper.SelectorMapper;
 import org.apache.shenyu.admin.model.dto.DataPermissionDTO;
-import org.apache.shenyu.admin.model.entity.DataPermissionDO;
-import org.apache.shenyu.admin.utils.JwtUtils;
 import org.apache.shenyu.admin.model.dto.SelectorConditionDTO;
 import org.apache.shenyu.admin.model.dto.SelectorDTO;
+import org.apache.shenyu.admin.model.entity.DataPermissionDO;
 import org.apache.shenyu.admin.model.entity.PluginDO;
 import org.apache.shenyu.admin.model.entity.RuleDO;
 import org.apache.shenyu.admin.model.entity.SelectorConditionDO;
 import org.apache.shenyu.admin.model.entity.SelectorDO;
-import org.apache.shenyu.admin.listener.DataChangedEvent;
 import org.apache.shenyu.admin.model.page.CommonPager;
 import org.apache.shenyu.admin.model.page.PageResultUtils;
 import org.apache.shenyu.admin.model.query.RuleConditionQuery;
 import org.apache.shenyu.admin.model.query.RuleQuery;
 import org.apache.shenyu.admin.model.query.SelectorConditionQuery;
 import org.apache.shenyu.admin.model.query.SelectorQuery;
-import org.apache.shenyu.admin.service.SelectorService;
-import org.apache.shenyu.admin.transfer.ConditionTransfer;
 import org.apache.shenyu.admin.model.vo.SelectorConditionVO;
 import org.apache.shenyu.admin.model.vo.SelectorVO;
+import org.apache.shenyu.admin.service.SelectorService;
+import org.apache.shenyu.admin.transfer.ConditionTransfer;
+import org.apache.shenyu.admin.utils.JwtUtils;
 import org.apache.shenyu.common.constant.AdminConstants;
 import org.apache.shenyu.common.dto.ConditionData;
 import org.apache.shenyu.common.dto.SelectorData;
@@ -54,7 +55,6 @@ import org.apache.shenyu.common.enums.ConfigGroupEnum;
 import org.apache.shenyu.common.enums.DataEventTypeEnum;
 import org.apache.shenyu.common.enums.PluginEnum;
 import org.apache.shenyu.common.utils.GsonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,45 +65,27 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * SelectorServiceImpl.
+ * Implementation of the {@link org.apache.shenyu.admin.service.SelectorService}.
  */
-@Service("selectorService")
+@RequiredArgsConstructor
+@Service
 public class SelectorServiceImpl implements SelectorService {
 
     private final SelectorMapper selectorMapper;
 
     private final SelectorConditionMapper selectorConditionMapper;
 
+    private final PluginMapper pluginMapper;
+
     private final RuleMapper ruleMapper;
 
     private final RuleConditionMapper ruleConditionMapper;
 
-    private final PluginMapper pluginMapper;
+    private final ApplicationEventPublisher eventPublisher;
 
     private final DataPermissionMapper dataPermissionMapper;
 
-    private final ApplicationEventPublisher eventPublisher;
-
     private final UpstreamCheckService upstreamCheckService;
-
-    @Autowired(required = false)
-    public SelectorServiceImpl(final SelectorMapper selectorMapper,
-                               final SelectorConditionMapper selectorConditionMapper,
-                               final PluginMapper pluginMapper,
-                               final RuleMapper ruleMapper,
-                               final RuleConditionMapper ruleConditionMapper,
-                               final ApplicationEventPublisher eventPublisher,
-                               final DataPermissionMapper dataPermissionMapper,
-                               final UpstreamCheckService upstreamCheckService) {
-        this.selectorMapper = selectorMapper;
-        this.selectorConditionMapper = selectorConditionMapper;
-        this.pluginMapper = pluginMapper;
-        this.ruleMapper = ruleMapper;
-        this.ruleConditionMapper = ruleConditionMapper;
-        this.eventPublisher = eventPublisher;
-        this.dataPermissionMapper = dataPermissionMapper;
-        this.upstreamCheckService = upstreamCheckService;
-    }
 
     @Override
     public String register(final SelectorDTO selectorDTO) {
@@ -127,7 +109,7 @@ public class SelectorServiceImpl implements SelectorService {
      * @return rows
      */
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional(rollbackFor = Exception.class)
     public int createOrUpdate(final SelectorDTO selectorDTO) {
         int selectorCount;
         SelectorDO selectorDO = SelectorDO.buildSelectorDO(selectorDTO);
@@ -139,9 +121,9 @@ public class SelectorServiceImpl implements SelectorService {
                 selectorConditionMapper.insertSelective(SelectorConditionDO.buildSelectorConditionDO(selectorConditionDTO));
             });
             // check selector add
-            if (dataPermissionMapper.listByUserId(JwtUtils.getUserId()).size() > 0) {
+            if (dataPermissionMapper.listByUserId(JwtUtils.getUserInfo().getUserId()).size() > 0) {
                 DataPermissionDTO dataPermissionDTO = new DataPermissionDTO();
-                dataPermissionDTO.setUserId(JwtUtils.getUserId());
+                dataPermissionDTO.setUserId(JwtUtils.getUserInfo().getUserId());
                 dataPermissionDTO.setDataId(selectorDO.getId());
                 dataPermissionDTO.setDataType(AdminConstants.SELECTOR_DATA_TYPE);
                 dataPermissionMapper.insertSelective(DataPermissionDO.buildPermissionDO(dataPermissionDTO));

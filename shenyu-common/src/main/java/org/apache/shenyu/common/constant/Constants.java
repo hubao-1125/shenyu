@@ -23,6 +23,21 @@ package org.apache.shenyu.common.constant;
 public interface Constants {
 
     /**
+     * The constant path template.
+     */
+    char LEFT = '{';
+
+    /**
+     * The constant path template.
+     */
+    char RIGHT = '}';
+
+    /**
+     * The constant path template.
+     */
+    String PATTERN = "([^/]*)";
+
+    /**
      * The constant APP_PARAM.
      */
     String APP_PARAM = "appParam";
@@ -121,6 +136,11 @@ public interface Constants {
      * The constant GRPC_RPC_RESULT.
      */
     String GRPC_RPC_RESULT = "grpc_rpc_result";
+
+    /**
+     * The constant RPC_RESULT.
+     */
+    String RPC_RESULT = "rpc_result";
 
     /**
      * The constant MOTAN_RPC_RESULT.
@@ -456,6 +476,21 @@ public interface Constants {
     int SENTINEL_RESPONSE_RULE_GRADE = 0;
 
     /**
+     * Sentinel degrade rule default min request.
+     */
+    int SENTINEL_MIN_REQUEST_AMOUNT = 5;
+
+    /**
+     * Sentinel degrade rule default slow ratio threshold.
+     */
+    double SENTINEL_SLOW_RATIO_THRESHOLD = 1.0d;
+
+    /**
+     * Sentinel degrade rule default stat intervals.
+     */
+    int SENTINEL_STAT_INTERVALS = 1;
+
+    /**
      * default warmup.
      */
     int DEFAULT_WARMUP = 10 * 60 * 1000;
@@ -504,6 +539,11 @@ public interface Constants {
      * default requestMaxSize value.
      */
     int REQUEST_MAX_SIZE = 102400;
+
+    /**
+     * String default.
+     */
+    String DEFAULT = "DEFAULT";
 
     /**
      * String q.
